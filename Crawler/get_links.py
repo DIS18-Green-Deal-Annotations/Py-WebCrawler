@@ -12,6 +12,7 @@ class fromURL:
         for documents in document_list.find_all("div", class_ = "field field-name-field-core-legacy-link field--field-core-legacy-link"):
             link = documents.find("div", class_ = "file").a["href"]
             link = link.replace("nl/", "en/").replace("%3A", ":")
+            link = link.replace("ga/", "de/").replace("%3A", ":")
             if link.rfind("qid=") != -1: # Check if link contains qid
                 link = link[:link.rfind("qid=") -1] # Removing non-necessary qid part
             html = link.rfind("TXT/")
