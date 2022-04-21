@@ -5,6 +5,8 @@ import get_links
 import pandas as pd
 from datetime import datetime
 import regex as re
+import urllib.request
+import os
 
 linklist = get_links.fromURL(r"https://ec.europa.eu/info/strategy/priorities-2019-2024/european-green-deal/delivering-european-green-deal_en#documents")
 
