@@ -50,7 +50,6 @@ def get_document_metadata(link):
     page = requests.get(link)
     soup = BeautifulSoup(page.content, "lxml")
     metacomment = str(soup.find("div", {"class": "content"}).find(string=lambda text: isinstance(text, Comment)))
-    # Meta Stuff
     metalink = link.replace("/TXT/HTML/", "/ALL/")
     metapage = requests.get(metalink)
     metasoup = BeautifulSoup(metapage.content, "lxml")
