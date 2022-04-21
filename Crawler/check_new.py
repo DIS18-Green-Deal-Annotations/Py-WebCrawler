@@ -13,9 +13,19 @@ linklist = get_links.fromURL(r"https://ec.europa.eu/info/strategy/priorities-201
 
 def check():
     num_newlinks = 0
+    headers = ",Title,Link,Date of document,Download date,Downloaded language,Downloaded doctype,Author,Form,Subject matter"
     # Look for the base file
+    if not os.path.exists("known_html_files.csv"):
         # If file doesnt exists then create it and add the needed headers
+        with open("known_html_files.csv", 'w') as f:
+            f.write(headers)
     # If file exists then check if the first row contains the needed headers -> if not then add them
+    else:
+        with open("known_html_files.csv", 'r+') as f:
+            if not f.readline().rstrip() == headers:
+                file_content = f.read()
+                f.seek(0, 0)
+                f.write(headers + "\n" + file_content)
     # Read in the file containing metadata
     known_html_files = pd.read_csv("known_html_files.csv", index_col=0)
     # Go through all files on the linklist page and see if there is one not indexed yet
