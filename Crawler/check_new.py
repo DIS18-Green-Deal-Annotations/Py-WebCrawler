@@ -67,4 +67,14 @@ def get_document_metadata(link):
     return dataframe_dict
 
 def downloader(link):
+    filename = link.split("uri=")[1]
+    tobereplaced = [";",",",".",":"]
+    for char in tobereplaced:
+        filename = filename.replace(char, "_")
     # Download the html content if not already done
+    if not os.path.exists("./html/" + filename + ".html"):
+        response = urllib.request.urlopen(link)
+        webContent = response.read().decode('UTF-8')
+        with open(f'./html/{filename}.html', 'w', encoding="utf-8") as f:
+            f.write(webContent)
+            f.close
