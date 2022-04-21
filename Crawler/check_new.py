@@ -8,21 +8,28 @@ import regex as re
 import urllib.request
 import os
 
+# This is the default landing page on which you should find all the EGD documents
 linklist = get_links.fromURL(r"https://ec.europa.eu/info/strategy/priorities-2019-2024/european-green-deal/delivering-european-green-deal_en#documents")
 
 def check():
     num_newlinks = 0
+    # Look for the base file
+        # If file doesnt exists then create it and add the needed headers
+    # If file exists then check if the first row contains the needed headers -> if not then add them
+    # Read in the file containing metadata
     known_html_files = pd.read_csv("known_html_files.csv", index_col=0)
+    # Go through all files on the linklist page and see if there is one not indexed yet
     for link in linklist.get():
+        # If it found a new/unknown file then add it to the known_html_files file
         if not link in known_html_files["Link"].tolist():
             num_newlinks += 1
             data = pd.DataFrame([get_document_metadata(link)])
             known_html_files = pd.concat([known_html_files, data], ignore_index=True)
-    # Creating a unique ID
-    # known_html_files["UID"] = known_html_files.groupby("Link").ngroup()
+            # Download the html content of the file
     known_html_files.to_csv("known_html_files.csv")
 
 def get_document_metadata(link):
+    # Meta Stuff
     page = requests.get(link)
     soup = BeautifulSoup(page.content, "lxml")
     metacomment = str(soup.find("div", {"class": "content"}).find(string=lambda text: isinstance(text, Comment)))
@@ -43,4 +50,4 @@ def get_document_metadata(link):
     return dataframe_dict
 
 def downloader(link):
-    return
+    # Download the html content if not already done
