@@ -36,6 +36,13 @@ def check():
             data = pd.DataFrame([get_document_metadata(link)])
             known_html_files = pd.concat([known_html_files, data], ignore_index=True)
             # Download the html content of the file
+            downloader(link)
+            print(f"Found and downloaded {num_newlinks} new document" + ("s" if num_newlinks > 1 or num_newlinks == 0 else ""), end="\r")
+    else:
+        print("\n")
+    if num_newlinks == 0:
+        print(f"Couldn't find any new documents.")
+    print(f"There are currently {len(known_html_files)} files indexed")
     known_html_files.to_csv("known_html_files.csv")
 
 def get_document_metadata(link):
