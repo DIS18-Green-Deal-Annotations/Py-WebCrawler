@@ -21,3 +21,6 @@ class fromURL:
             link = link[:html + 4] + "HTML/?" + link[html + 5:]
             document_links.append(link)
         return document_links
+
+if __name__ == "__main__":
+    print(fromURL(r"https://ec.europa.eu/info/strategy/priorities-2019-2024/european-green-deal/delivering-european-green-deal_en#documents").get())

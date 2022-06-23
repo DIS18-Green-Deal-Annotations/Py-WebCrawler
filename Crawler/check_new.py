@@ -75,3 +75,6 @@ def downloader(link):
         with open(f'./html/{filename}.html', 'w', encoding="utf-8") as f:
             f.write(webContent)
             f.close
+
+if __name__ == "__main__":
+    check()
