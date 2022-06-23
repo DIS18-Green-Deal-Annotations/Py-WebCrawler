@@ -12,8 +12,9 @@ import os
 linklist = get_links.fromURL(r"https://ec.europa.eu/info/strategy/priorities-2019-2024/european-green-deal/delivering-european-green-deal_en#documents")
 
 def check():
+    downloaded_files = os.listdir('html')
     num_newlinks = 0
-    headers = ",Title,Link,Date of document,Download date,Downloaded language,Downloaded doctype,Author,Form,Subject matter"
+    headers = ",Title,Link,Date of document,Download date,Downloaded language,Downloaded doctype,Filename,Author,Form,Subject matter"
     # Look for the base file
     if not os.path.exists("known_html_files.csv"):
         # If file doesnt exists then create it and add the needed headers
@@ -38,6 +39,13 @@ def check():
             # Download the html content of the file
             downloader(link)
             print(f"Found and downloaded {num_newlinks} new document" + ("s" if num_newlinks > 1 or num_newlinks == 0 else ""), end="\r")
+            continue
+        # If it found a file in the csv which has not been downloaded yet or deletet, download it again
+        filename_check = known_html_files.loc[known_html_files["Link"] == link]["Filename"].item()
+        if not filename_check in downloaded_files:
+            downloader(link)
+            print("Found a document that has not been downloaded or deleted. Re-downloading now")
+            num_newlinks += 1
     else:
         print("\n")
     if num_newlinks == 0:
@@ -58,6 +66,8 @@ def get_document_metadata(link):
     dataframe_dict["Download date"] = datetime.now().strftime(r"%d/%m/%Y %H:%M:%S")
     dataframe_dict["Downloaded language"] = re.findall(r"""name=LW_LANGUE;value=\"(.+?(?=\"))""", metacomment)[0]
     dataframe_dict["Downloaded doctype"] = "HTML"
+    filename = link.split("uri=")[1] + ".html"
+    dataframe_dict["Filename"] = filename.replace(":","_")
     dataframe_dict["Author"] = metasoup.find(id="PPMisc_Contents").dl.find_all("dd")[0].text.strip()
     dataframe_dict["Form"] = metasoup.find(id="PPMisc_Contents").dl.find_all("dd")[2].text.strip()
     dataframe_dict["Subject matter"] = metasoup.find(id="PPClass_Contents").dl.find_all("dd")[0].text.strip().replace('\n\n','').replace('\n',';')
@@ -65,6 +75,7 @@ def get_document_metadata(link):
 
 def downloader(link):
     filename = link.split("uri=")[1]
+    filename = filename.replace(":","_")
     tobereplaced = [";",",",".",":"]
     for char in tobereplaced:
         filename = filename.replace(char, "_")
