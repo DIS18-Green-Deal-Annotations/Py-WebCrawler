@@ -5,8 +5,7 @@ class fromURL:
         self.url = url
 
     def get(self):
-        page = requests.get(self.url)
-        soup = BeautifulSoup(page.content, "lxml")
+        soup = BeautifulSoup(requests.get(self.url).content, "lxml")
         document_list = soup.find(id = "documents")
         document_links = []
         for documents in document_list.find_all("div", class_ = "field field-name-field-core-legacy-link field--field-core-legacy-link"):
