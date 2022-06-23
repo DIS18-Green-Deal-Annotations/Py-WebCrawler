@@ -67,7 +67,10 @@ def get_document_metadata(link):
     dataframe_dict["Downloaded language"] = re.findall(r"""name=LW_LANGUE;value=\"(.+?(?=\"))""", metacomment)[0]
     dataframe_dict["Downloaded doctype"] = "HTML"
     filename = link.split("uri=")[1] + ".html"
-    dataframe_dict["Filename"] = filename.replace(":","_")
+    tobereplaced = [";",",",".",":"]
+    for char in tobereplaced:
+        filename = filename.replace(char, "_")
+    dataframe_dict["Filename"] = filename
     dataframe_dict["Author"] = metasoup.find(id="PPMisc_Contents").dl.find_all("dd")[0].text.strip()
     dataframe_dict["Form"] = metasoup.find(id="PPMisc_Contents").dl.find_all("dd")[2].text.strip()
     dataframe_dict["Subject matter"] = metasoup.find(id="PPClass_Contents").dl.find_all("dd")[0].text.strip().replace('\n\n','').replace('\n',';')
@@ -75,7 +78,6 @@ def get_document_metadata(link):
 
 def downloader(link):
     filename = link.split("uri=")[1]
-    filename = filename.replace(":","_")
     tobereplaced = [";",",",".",":"]
     for char in tobereplaced:
         filename = filename.replace(char, "_")
