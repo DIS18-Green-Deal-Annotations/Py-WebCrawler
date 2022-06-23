@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./Style/stylesheet.css" />
+        <title>Green Deal annotations</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://kit.fontawesome.com/a1827aa545.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="./Style/navbar.css" />
+    </head>
+    <body>
+        <div class="grid_container">
+            <div class="header">
+                <h1>Green Deal Annotations</h1>
+            </div>
+            <div class="navigation">
+                <div id="navbar-animmenu">
+                    <ul class="show-dropdown main-navbar">
+                        <div class="hori-selector">
+                            <div class="left"></div>
+                            <div class="right"></div>
+                        </div>
+                        <li class="active">
+                            <a href="javascript:void(0);"><i class="fas fa-home"></i>Home</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i class="fas fa-hashtag"></i>Number / NER extraction</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i class="fa-solid fa-link"></i>Document Linking</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i class="fa-solid fa-folder-tree"></i>Document Classification</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);"><i class="fa-solid fa-table-list"></i>Table Extraction</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- partial -->
+                <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                <script src="./Scripts/navbar.js"></script>
+            </div>
+            <div class="content" id="iframes"></div>
+            <div class="sidebar"></div>
+            <div class="footer"></div>
+        </div>
+        <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script>
+            $.getJSON("../Crawler/html_tables", (data) => {
+                var parent = document.getElementById("iframes");
+                for (var i = 0; i < data.length; i++) {
+                    mydiv = parent.appendChild(document.createElement("div"));
+                    mydiv.setAttribute("id", data[i]);
+                    // $(`#${data[i]}`).load(`../Crawler/html_tables/${data[i]}`, function (response, status, xhr) {
+                    //     console.log("Sorry but there was an error: " + xhr.status + " " + xhr.statusText);
+                    // });
+                    document.getElementById(data[i]).innerHTML = `<object type="text/html" data="../Crawler/html_tables/${data[i]}" ></object>`;
+                }
+            });
+        </script>
+    </body>
+</html>
