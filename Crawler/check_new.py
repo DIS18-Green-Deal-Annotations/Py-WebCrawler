@@ -47,12 +47,10 @@ def check():
 
 def get_document_metadata(link):
     # Meta Stuff
-    page = requests.get(link)
-    soup = BeautifulSoup(page.content, "lxml")
+    soup = BeautifulSoup(requests.get(link).content, "lxml")
     metacomment = str(soup.find("div", {"class": "content"}).find(string=lambda text: isinstance(text, Comment)))
     metalink = link.replace("/TXT/HTML/", "/ALL/")
-    metapage = requests.get(metalink)
-    metasoup = BeautifulSoup(metapage.content, "lxml")
+    metasoup = BeautifulSoup(requests.get(metalink).content, "lxml")
     dataframe_dict = {}
     dataframe_dict["Title"] = soup.find("p", {"class": "Titreobjet_cp"}).text.replace('\n','')
     dataframe_dict["Link"] = link
