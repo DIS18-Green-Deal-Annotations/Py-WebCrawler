@@ -1,0 +1,57 @@
+@font-face {
+    font-family: "Oswald";
+    src: url("../Fonts/Oswald/Oswald-VariableFont_wght.ttf");
+}
+html body {
+    border: none;
+    padding: 0;
+    background-color: rgb(209, 209, 209);
+    margin: 1%;
+    min-height: 100%;
+    height: auto;
+}
+.grid_container {
+    grid-template-columns: 70% 30%;
+    border-radius: 5px;
+    margin: auto;
+    display: grid;
+    width: 91%;
+    height: 100%;
+    background-color: white;
+}
+.header {
+    font-family: "Oswald";
+    font-size: 1.5em;
+    grid-column: 1 / 3;
+    grid-row: 1;
+    text-align: center;
+}
+.navigation {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+.content {
+    overflow: hidden;
+    grid-column: 1 / 2;
+    grid-row: 3;
+}
+.content iframe {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+#iframes object {
+    height: 100%;
+    width: 100%;
+}
+table {
+    border: 1px solid black;
+}
+.sidebar {
+    grid-column: 2 / 3;
+    grid-row: 3;
+}
+.footer {
+    grid-column: 1 / 3;
+    grid-row: 4;
+}
